@@ -126,15 +126,13 @@ console.log( 'The total number of transactions is:', totalTransactions );
 // --------------------------------------------------
 /*
   Calculate the total number of 'sales'.
-
   HINT(S):
   - Not all transactions are 'sales'.
 */
-var numSales;
+var numSales=0;
 
 /*
   Hey, welcome to the first question!
-
   Here's a breakdown of the question, and some pointers on how to get started!
     - A variable has been declared a few lines above (`numSales`).
     - Just below, the contents of the `numSales` variable are logged to the console.
@@ -144,12 +142,16 @@ var numSales;
       - Starting with the `transactions` variable (see the example question);
       - Adding one or more methods to transform/extract the value we're looking for.
       - If your solution is correct, `numSales` should be equal to 5.
-
   You can solve the remaining questions in the same way!
-
   P.S.
   The breakdown above takes up a lot of space, feel free to move it to the top or bottom of the file!
 */
+
+for(i=0; i<totalTransactions; i++){
+  if (transactions[i].type === 'sale'){
+    numSales++;
+  }
+}
 
 console.log( 'The total number of sales is:', numSales );
 
@@ -160,7 +162,13 @@ console.log( 'The total number of sales is:', numSales );
 /*
   Calculate the total number of 'purchases'.
 */
-var numPurchases;
+var numPurchases=0;
+
+for(i=0; i<totalTransactions; i++){
+  if (transactions[i].type === 'purchase'){
+    numPurchases++;
+  }
+}
 
 console.log( 'The total number of purchases is:', numPurchases );
 
@@ -170,11 +178,16 @@ console.log( 'The total number of purchases is:', numPurchases );
 // --------------------------------------------------
 /*
   Calculate the total number of 'cash' 'sales'.
-
   HINT(S):
   - Don't forget that 'purchases' can also be made in 'cash'!
 */
-var numCashSales;
+var numCashSales=0;
+
+for(i=0; i<totalTransactions; i++){
+  if (transactions[i].type === 'sale' && transactions[i].paymentMethod === 'cash'){
+    numCashSales++;
+  }
+}
 
 console.log( 'The total number of cash sales is:', numCashSales );
 
@@ -184,11 +197,16 @@ console.log( 'The total number of cash sales is:', numCashSales );
 // --------------------------------------------------
 /*
   Calculate the total number of 'credit' 'purchases'.
-
   HINT(S):
   - Make sure to exclude any 'sales' made by 'credit'!
 */
-var numCreditPurchases;
+var numCreditPurchases=0;
+
+for(i=0; i<totalTransactions; i++){
+  if (transactions[i].type === 'purchase' && transactions[i].paymentMethod === 'credit'){
+    numCreditPurchases++;
+  }
+}
 
 console.log( 'The total number of credit purchases is:', numCreditPurchases );
 
@@ -199,13 +217,18 @@ console.log( 'The total number of credit purchases is:', numCreditPurchases );
 /*
   Create an array that includes all of vendors which appear in the transactions data set.
   eg. `[ 'vendor one', 'vendor two', ... ]
-
   HINT(S):
   - Not all transactions have a 'vendor'!
   - The assembled array should be made up of strings, not full `transaction` objects.
   - This array is allowed to contain duplicate values.
 */
-var allVendors;
+var allVendors= [];
+
+for(i=0; i<totalTransactions; i++){
+  if(transactions[i].vendor){
+    allVendors.push(transactions[i].vendor);
+  }
+}
 
 console.log( 'The vendors are:', allVendors );
 
@@ -216,13 +239,22 @@ console.log( 'The vendors are:', allVendors );
 /*
   Create an array that includes all of the *unique* customers which appear in the transactions data set.
   eg. `[ 'customer one', 'customer two', ... ]
-
   HINT(S):
   - Not all transactions have a 'customer'!
   - The assembled array should be made up of strings, not full `transaction` objects.
   - Make sure that the resulting array *does not* include any duplicates.
 */
-var uniqueCustomers;
+var uniqueCustomers=[];
+
+for(i=0; i<totalTransactions; i++){
+  if(transactions[i].customer){
+
+    if (uniqueCustomers.indexOf(transactions[i].customer) === -1){
+        uniqueCustomers.push(transactions[i].customer);
+    }
+
+  }
+}
 
 console.log( 'The unique customers are:', uniqueCustomers );
 
@@ -232,15 +264,24 @@ console.log( 'The unique customers are:', uniqueCustomers );
 // --------------------------------------------------
 /*
   Create an array of information about the 'sale' transactions which include 5 or more items.
-
   The array should resemble the following:
   [ { name: 'Customer Name', numItems: 5 }, ... ]
-
   HINT(S):
   - There may be more than 1 'sale' that includes 5 or more items.
   - Individual transactions do not have either `name` or `numItems` properties, we'll have to add them to the output.
 */
-var bigSpenders;
+var bigSpenders= [];
+
+for(i=0; i<totalTransactions; i++){
+  if(transactions[i].customer && transactions[i].type === 'sale' && transactions[i].items.length >=5){
+    var infoHash = {
+                    Name: transactions[i].customer,
+                    numItems: transactions[i].items.length
+    }
+
+    bigSpenders.push(infoHash);
+  }
+}
 
 console.log( 'The "big spenders" are:', bigSpenders );
 
@@ -250,7 +291,6 @@ console.log( 'The "big spenders" are:', bigSpenders );
 // --------------------------------------------------
 /*
   Calculate the sum of the *first* 'sale' transaction.
-
   HINT(S):
   - Transactions don't have 'prices', but their 'items' do!
 */
@@ -264,7 +304,6 @@ console.log( 'The sum of all sales is:', sumSales );
 // --------------------------------------------------
 /*
   Calculate the sum of *all* 'purchase' transactions.
-
   HINT(S):
   - Your solution to 'QUESTION 08' is a good starting point!
   - Make sure to include 'price' information from *all* purchases.
@@ -280,11 +319,8 @@ console.log( 'The sum of all purhcases is:', sumPurchases );
 // --------------------------------------------------
 /*
   Calculate the company's net profit.
-
   This number will be positive if the sum of the sales is greater than the amount spent on purchases.
-
   Otherwise, this number will be negative.
-
   HINT(S):
   - Unlike 'QUESTION 08' and 'QUESTION 09', here we're interested in both 'sale' and 'purchase' transactions.
 */
@@ -298,7 +334,6 @@ console.log( 'The net profit is:', netProfit );
 // --------------------------------------------------
 /*
   Calculate the most items sold as part of single transaction.
-
   HINTS:
   - The result of this calculation should be a number (not an array, object, or other data type).
 */
